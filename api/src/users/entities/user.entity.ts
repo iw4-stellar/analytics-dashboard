@@ -1,16 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Site } from 'src/sites/entities/site.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
-  firstName: string;
+  @Column({ unique: true, nullable: false })
+  email: string;
 
-  @Column()
-  lastName: string;
+  @Column({ select: false })
+  password: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @OneToMany(() => Site, (site) => site.user)
+  sites: Site[];
 }

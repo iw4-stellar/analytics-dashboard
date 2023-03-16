@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 
 // Users
 import { UsersModule } from '../users/users.module';
+import { SitesModule } from 'src/sites/sites.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsersModule } from '../users/users.module';
       synchronize: true,
     }),
     UsersModule,
+    SitesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
