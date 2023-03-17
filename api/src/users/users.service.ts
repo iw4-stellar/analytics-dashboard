@@ -47,4 +47,12 @@ export class UsersService {
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
   }
+
+  findByEmailWithPassword(email: User['email']) {
+    return this.usersRepository
+      .createQueryBuilder()
+      .select('*')
+      .where('email = :email', { email })
+      .getRawOne<User>();
+  }
 }
