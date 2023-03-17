@@ -1,12 +1,7 @@
-<script setup lang="ts">
-import { defineComponent } from 'vue';
-
-</script>
-
 <template>
   <div class="app">
     <header>
-      <div class="brand" title="Analytics Dashboard">AD</div>
+      <div class="brand" :title="appName">AD</div>
       <nav>
         <ul class="flex flex-col items-center">
           <li>
@@ -29,13 +24,23 @@ import { defineComponent } from 'vue';
 </template>
 
 <script lang="ts">
+import { computed, defineComponent } from 'vue'
+import { useAppStore } from '@/stores/appStore'
 import ThemeSwitch from '@/components/ThemeSwitch.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-
   },
+  setup() {
+    const appStore = useAppStore();
+
+    const appName = computed(() => appStore.name)
+
+    return {
+      appName,
+    }
+  }
 })
 </script>
 
