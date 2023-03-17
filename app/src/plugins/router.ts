@@ -44,7 +44,6 @@ export const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore();
 
-
   if (to.meta.authenticated && !authStore.authenticated) {
     return { name: 'login', query: { next: to.fullPath } }
   }

@@ -79,10 +79,7 @@ export default defineComponent({
       try {
         loading.value = true;
         await authStore.login(form.value);
-        authStore.$patch({
-          authenticated: true,
-        })
-
+        authStore.setAuthenticated(true);
         if (route.params.next) {
           router.replace(route.params.next as string)
         } else router.replace({ name: 'dashboard' })

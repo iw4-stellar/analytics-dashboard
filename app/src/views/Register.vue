@@ -100,7 +100,7 @@ export default defineComponent({
           password: form.value.password,
         }
         await authStore.register(data)
-        authStore.$patch({ authenticated: true })
+        authStore.setAuthenticated(true);
         router.replace({ name: 'dashboard' })
       } catch (e) {
         const error = e as AxiosError
