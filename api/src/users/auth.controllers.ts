@@ -21,14 +21,14 @@ export class AuthController {
       credentials.email,
     );
 
-    if (user === null) return new UnauthorizedException();
+    if (!user) throw new UnauthorizedException();
 
     const validPassword = bcrypt.compareSync(
       credentials.password,
       user.password,
     );
 
-    if (!validPassword) return new UnauthorizedException();
+    if (!validPassword) throw new UnauthorizedException();
 
     return 'OK';
   }
