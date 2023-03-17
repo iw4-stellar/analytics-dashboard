@@ -10,7 +10,7 @@
             class="tooltip tooltip-right"
             :data-tip="link.tip"
           >
-            <router-link :to="link.to" class="btn btn-ghost btn-square">
+            <router-link :to="link.to" class="btn btn-ghost btn-square" active-class="!btn-primary">
               <i class="pi" :class="{[link.icon]: true }"></i>
             </router-link>
           </div>
@@ -30,6 +30,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 import ThemeSwitch from '@/components/ThemeSwitch.vue'
 
@@ -39,6 +40,7 @@ export default defineComponent({
     ThemeSwitch,
   },
   setup() {
+    const router = useRouter();
     const authStore = useAuthStore();
 
     const authenticated = computed(() => authStore.authenticated)
@@ -65,6 +67,7 @@ export default defineComponent({
 
       if (exit) {
         authStore.setAuthenticated(false);
+        router.replace({ name: 'login' })
       }
     }
 
@@ -79,19 +82,19 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .sidenav {
-  @apply h-full p-2 bg-primary text-primary-content flex flex-col items-center;
+  @apply h-full border-r flex flex-col items-center;
 }
 
 .brand {
-  @apply aspect-square h-16 flex items-center justify-center font-bold;
+  @apply aspect-square h-16 flex items-center justify-center font-bold border-b text-primary;
 }
 
 .nav {
-  @apply flex-1;
+  @apply p-2 flex-1 border-b;
 }
 
 .actions {
-  @apply flex flex-col items-center gap-2;
+  @apply p-2 flex flex-col items-center gap-2;
 }
 
 </style>
