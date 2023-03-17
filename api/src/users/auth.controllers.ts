@@ -39,7 +39,7 @@ export class AuthController {
     const userExists =
       (await this.usersService.findOneByEmail(registerDto.email)) !== null;
 
-    if (userExists) return new BadRequestException({ email: 'unavailable' });
+    if (userExists) throw new BadRequestException({ email: 'unavailable' });
 
     const user = await this.usersService.create(registerDto);
 
