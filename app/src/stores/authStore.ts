@@ -1,7 +1,12 @@
 import { defineStore } from "pinia";
 import { axios } from "@/plugins/axios";
 
-type Credentials = {
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+type RegistrationData = {
   email: string;
   password: string;
 }
@@ -13,10 +18,11 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
-    async login(credentials: Credentials) {
-      const { data } = await axios.post('/auth/login', credentials);
-
-      return data;
+    login(credentials: LoginCredentials) {
+      return axios.post('/auth/login', credentials);
+    },
+    register(data: RegistrationData) {
+      return axios.post('/auth/register', data);
     }
   }
 })
