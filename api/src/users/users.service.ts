@@ -17,14 +17,13 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     // Hash plain password
-    const { plainPassword } = createUserDto;
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
-    const password = bcrypt.hashSync(plainPassword, salt);
+    const hashedPassword = bcrypt.hashSync(createUserDto.password, salt);
 
     const data: Partial<User> = {
       email: createUserDto.email,
-      password,
+      password: hashedPassword,
     };
 
     const user = this.usersRepository.create(data);
@@ -46,6 +45,10 @@ export class UsersService {
 
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  findOneByEmail(email: User['email']) {
+    return this.usersRepository.findOneBy({ email });
   }
 
   findByEmailWithPassword(email: User['email']) {
