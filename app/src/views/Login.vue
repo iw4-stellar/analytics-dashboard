@@ -3,6 +3,15 @@
     <form class="wrapper" @submit.prevent="submit()">
       <h1 class="text-6xl">Log in</h1>
 
+      <div class="errors" v-if="errors">
+        <div class="alert alert-error" v-show="errors.server">
+          <div>😖 Internal server error. Try again</div>
+        </div>
+        <div class="alert alert-error" v-show="errors.credentials">
+          <div>❌ Invalid credentials. Try again</div>
+        </div>
+      </div>
+
       <div class="form-control">
         <label class="label">
           <span class="label-text">Email</span>
@@ -28,17 +37,26 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
+import { AxiosError } from 'axios';
 
 interface LoginForm {
   email: string;
   password: string;
 }
 
-type LoginFormErrors = Partial<Record<keyof LoginForm, string>>;
+type LoginFormError = Partial<Record<keyof LoginForm, string>>
+interface LoginSubmitError {
+  server?: string | true;
+  credentials?: string | true; 
+}
+type LoginFormErrors = LoginFormError & LoginSubmitError;
 
 export default defineComponent({
   name: 'LoginView',
   setup() {
+    const authStore = useAuthStore();
+
     const form = ref<LoginForm>({
       email: '',
       password: '',
@@ -50,15 +68,22 @@ export default defineComponent({
       errors.value = {}
     }
 
-    const submit = () => {
+    const submit = async () => {
       validate()
 
       if (Object.keys(errors.value).length) return;
 
-      loading.value = true;
-      setTimeout(() => {
+      try {
+        loading.value = true;
+        await authStore.login(form.value);
+      } catch (e) {
+        const error = e as AxiosError;
+
+        if (error.code === "ERR_BAD_RESPONSE") errors.value.server = true;
+        if (error.code === 'ERR_BAD_REQUEST') errors.value.credentials = true;
+      } finally {
         loading.value = false;
-      }, 3000);
+      }
     }
 
     return {
@@ -82,5 +107,9 @@ export default defineComponent({
 
 .wrapper {
   @apply w-full max-w-xl;
+}
+
+.errors {
+  @apply mb-6;
 }
 </style>
