@@ -32,8 +32,14 @@ export class SitesService {
     return this.sitesRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} site`;
+  async findOne(id: string) {
+    return this.sitesRepository
+      .findOneOrFail({
+        where: { id },
+      })
+      .catch(() => {
+        return null;
+      });
   }
 
   update(id: number, updateSiteDto: UpdateSiteDto) {

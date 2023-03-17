@@ -4,7 +4,7 @@ import { User } from 'src/users/entities/user.entity';
 @Entity()
 export class Site {
   @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  id: string;
 
   @ManyToOne(() => User, (user) => user.id)
   user: User;

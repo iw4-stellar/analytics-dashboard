@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { SitesService } from './sites.service';
 import { CreateSiteDto } from './dto/create-site.dto';
@@ -26,8 +27,12 @@ export class SitesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sitesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const site = await this.sitesService.findOne(id);
+
+    if (site === null) throw new NotFoundException();
+
+    return site;
   }
 
   @Patch(':id')
