@@ -49,6 +49,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 import { AxiosError } from 'axios';
 
@@ -68,6 +69,7 @@ type RegistrationFormErrors = RegistrationFormError & RegistrationSubmitError;
 export default defineComponent({
   name: 'RegisterView',
   setup() {
+    const router = useRouter()
     const authStore = useAuthStore();
 
     const form = ref<RegistrationForm>({
@@ -98,10 +100,11 @@ export default defineComponent({
           password: form.value.password,
         }
         await authStore.register(data)
+        authStore.$patch({ authenticated: true })
+        router.replace({ name: 'dashboard' })
       } catch (e) {
         const error = e as AxiosError
 
-        console.log(error);
         if (error.code === "ERR_BAD_RESPONSE") errors.value.server = true;
         if (error.code === 'ERR_BAD_REQUEST') errors.value = error.response?.data as RegistrationFormErrors || {};
       } finally {

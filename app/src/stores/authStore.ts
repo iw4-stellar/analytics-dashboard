@@ -23,6 +23,6 @@ export const useAuthStore = defineStore('auth', {
     },
     register(data: RegistrationData) {
       return axios.post('/auth/register', data);
-    }
+    },
   }
 })

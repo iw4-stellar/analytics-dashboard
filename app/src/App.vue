@@ -5,8 +5,8 @@
       <nav>
         <ul class="flex flex-col items-center">
           <li>
-            <div class="tooltip tooltip-right" data-tip="Home">
-              <router-link to="/" class="btn btn-ghost btn-square">
+            <div class="tooltip tooltip-right" data-tip="Dashboard">
+              <router-link to="/dashboard" class="btn btn-ghost btn-square">
                 <i class="pi pi-home"></i>
               </router-link>
             </div>
@@ -31,6 +31,7 @@ import ThemeSwitch from '@/components/ThemeSwitch.vue'
 export default defineComponent({
   name: 'App',
   components: {
+    ThemeSwitch,
   },
   setup() {
     const appStore = useAppStore();

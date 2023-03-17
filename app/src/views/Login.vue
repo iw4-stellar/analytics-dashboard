@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter, useRoute, RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 import { AxiosError } from 'axios';
 
@@ -55,6 +56,8 @@ type LoginFormErrors = LoginFormError & LoginSubmitError;
 export default defineComponent({
   name: 'LoginView',
   setup() {
+    const router =  useRouter();
+    const route = useRoute();
     const authStore = useAuthStore();
 
     const form = ref<LoginForm>({
@@ -76,6 +79,14 @@ export default defineComponent({
       try {
         loading.value = true;
         await authStore.login(form.value);
+        authStore.$patch({
+          authenticated: true,
+        })
+
+        if (route.params.next) {
+          router.replace(route.params.next as string)
+        } else router.replace({ name: 'dashboard' })
+        
       } catch (e) {
         const error = e as AxiosError;
 
