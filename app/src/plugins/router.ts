@@ -5,7 +5,7 @@ const routes: readonly RouteRecordRaw[] = [
   {
     name: 'index',
     path: '/',
-    redirect: '/login',
+    redirect: '/dashboard',
     // component: () => import('@/views/Index.vue'),
   },
   {
@@ -25,6 +25,22 @@ const routes: readonly RouteRecordRaw[] = [
     meta: {
       authenticated: true,
     },
+  },
+  {
+    name: 'sites',
+    path: '/sites',
+    component: () => import('@/views/Sites.vue'),
+    meta: {
+      authenticated: true,
+    },
+  },
+  {
+    name: 'site',
+    path: '/sites/:id',
+    component: () => import('@/views/Site.vue'),
+     meta: {
+      authenticated: true,
+     },
   },
   {
     name: 'not-found',

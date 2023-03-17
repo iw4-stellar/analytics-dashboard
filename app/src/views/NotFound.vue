@@ -18,7 +18,9 @@ export default defineComponent({
   name: 'NotFoundView',
   computed: {
     path() {
-      return this.$route.path
+      const path = this.$route.fullPath.split('').splice(1).join('')
+
+      return decodeURIComponent(path)
     },
   },
   methods: {

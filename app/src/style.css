@@ -5,3 +5,11 @@
 .prose {
   @apply max-w-none;
 }
+
+.section {
+  @apply p-8 container mx-auto max-w-2xl;
+}
+
+.prose .breadcrumbs ul {
+  @apply pl-0;
+}

@@ -3,13 +3,8 @@
     <div class="brand">AD</div>
     <nav class="nav">
       <ul class="links">
-        <li>
-          <div
-            v-for="link in links"
-            :key="link.to"
-            class="tooltip tooltip-right"
-            :data-tip="link.tip"
-          >
+        <li v-for="link in links" :key="link.to">
+          <div class="tooltip tooltip-right" :data-tip="link.tip">
             <router-link :to="link.to" class="btn btn-ghost btn-square" active-class="!btn-primary">
               <i class="pi" :class="{[link.icon]: true }"></i>
             </router-link>
@@ -52,6 +47,12 @@ export default defineComponent({
         to: '/dashboard',
         authenticated: true,
       },
+      {
+        tip: 'Sites',
+        icon: 'pi-globe',
+        to: '/sites',
+        authenticated: true,
+      },
     ]
 
     const links = computed(() => {
@@ -82,7 +83,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .sidenav {
-  @apply h-full border-r flex flex-col items-center;
+  @apply h-full flex flex-col border-r;
 }
 
 .brand {
@@ -91,6 +92,10 @@ export default defineComponent({
 
 .nav {
   @apply p-2 flex-1 border-b;
+}
+
+.links {
+  @apply flex flex-col gap-2;
 }
 
 .actions {
